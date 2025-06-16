@@ -54,16 +54,20 @@ export default function ChatBox() {
             <div ref={bottomRef} />
           </div>
           <form className="flex border-t" onSubmit={sendMsg}>
-            <input
-              className="flex-1 px-3 py-2 outline-none rounded-bl-xl"
-              placeholder="Type a message..."
-              value={input}
-              onChange={e => setInput(e.target.value)}
-            />
-            <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-br-xl font-bold hover:bg-blue-600 transition">
-              Send
-            </button>
-          </form>
+  <input
+    className="flex-1 px-3 py-2 bg-white text-gray-800 placeholder-gray-500 rounded-bl-xl focus:outline-none"
+    placeholder="Type a message..."
+    value={input}
+    onChange={e => setInput(e.target.value)}
+  />
+  <button
+    type="submit"
+    className="bg-blue-500 text-white px-4 py-2 rounded-br-xl font-bold hover:bg-blue-600 transition"
+  >
+    Send
+  </button>
+</form>
+
         </div>
       ) : (
         <button

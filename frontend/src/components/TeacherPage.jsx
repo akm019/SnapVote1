@@ -205,33 +205,38 @@ export default function TeacherPage() {
                           </div>
                         </div>
                         
-                        <div className="grid gap-3 max-h-48 overflow-y-auto">
-                          {opts.map((opt, i) => (
-                            <div key={i} className="relative group flex items-center">
-                              <input
-                                value={opt}
-                                onChange={e => updateOption(i, e.target.value)}
-                                placeholder={`Option ${i + 1}`}
-                                className="w-full bg-white border border-gray-300 rounded-xl px-4 py-3 pr-12 text-gray-800 placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300"
-                              />
-                              <div className="absolute right-9 top-1/2 transform -translate-y-1/2">
-                                <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
-                                  {String.fromCharCode(65 + i)}
-                                </span>
-                              </div>
-                              <button
-                                type="button"
-                                onClick={() => setCorrectIndex(i)}
-                                aria-label="Set as correct"
-                                className={`ml-2 px-3 py-1 text-xs rounded-full font-semibold border transition
-                                  ${correctIndex === i ? 'bg-green-100 border-green-400 text-green-800' : 'bg-gray-100 border-gray-300 text-gray-500'}
-                                  hover:bg-green-200 hover:text-green-700`}
-                              >
-                                {correctIndex === i ? "✔ Correct" : "Mark Correct"}
-                              </button>
-                            </div>
-                          ))}
-                        </div>
+                        <div className="grid gap-4 max-h-60 overflow-y-auto">
+  {opts.map((opt, i) => (
+    <div
+      key={i}
+      className="relative flex items-center gap-3 bg-white border border-gray-200 rounded-xl px-4 py-3 shadow-sm hover:shadow-md transition"
+    >
+      <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-xs font-semibold text-gray-600 bg-gray-100 px-2 py-1 rounded-full">
+        {String.fromCharCode(65 + i)}
+      </span>
+
+      <input
+        value={opt}
+        onChange={e => updateOption(i, e.target.value)}
+        placeholder={`Option ${i + 1}`}
+        className="pl-10 w-full bg-white border border-gray-300 rounded-lg px-3 py-2 text-gray-800 placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-400/20 transition-all duration-200"
+      />
+
+      <button
+        type="button"
+        onClick={() => setCorrectIndex(i)}
+        aria-label="Set as correct"
+        className={`text-xs px-3 py-1 rounded-full font-medium border transition-all duration-200
+          ${correctIndex === i
+            ? 'bg-green-100 border-green-400 text-green-700'
+            : 'bg-gray-100 border-gray-300 text-gray-500 hover:bg-green-200 hover:text-green-700'}`}
+      >
+        {correctIndex === i ? '✔ Correct' : 'Mark Correct'}
+      </button>
+    </div>
+  ))}
+</div>
+
                       </div>
 
                       {/* Duration */}

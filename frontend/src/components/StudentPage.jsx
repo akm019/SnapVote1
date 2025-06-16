@@ -80,15 +80,18 @@ useEffect(() => {
     return () => clearInterval(interval);
   }, [activePoll, answered]);
 
-  function submitVote(optIdx) {
-    setIsLoading(true);
-    setSelectedOption(optIdx);
-    setTimeout(() => {
-      socket.emit("student:answer", { answerIndex: optIdx });
-      dispatch(setAnswered(true));
-      setIsLoading(false);
-    }, 800);
-  }
+ function submitVote(optIdx) {
+  setIsLoading(true);
+  setSelectedOption(optIdx);
+  setTimeout(() => {
+    socket.emit("student:answer", { 
+      pollId: activePoll.id,      // <--- ADD THIS LINE
+      answerIndex: optIdx 
+    });
+    dispatch(setAnswered(true));
+    setIsLoading(false);
+  }, 800);
+}
 
   // Helper for feedback
   function FeedbackBanner() {
@@ -274,20 +277,21 @@ useEffect(() => {
 
         {/* Poll Results & Feedback */}
      {/* Poll Results & Feedback */}
-{(answered || timeLeft === 0) && activePoll && (
+{/* Poll Results & Feedback - show live during poll, final after poll ends */}
+{answered && activePoll && results && results.counts && (
   <div className="mt-8 p-6 bg-slate-700/30 rounded-2xl border border-slate-600/50 backdrop-blur-sm">
     <FeedbackBanner />
     <h4 className="text-xl font-bold mb-4 text-center bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
-      Poll Results
+      {timeLeft > 0 ? "Live Poll Results" : "Poll Results"}
     </h4>
-    <PollResults 
-      end={true} 
+    <PollResults
+      end={timeLeft === 0 || typeof correctIndex === "number"} // END = true only when poll is over
       correctIndex={correctIndex}
       selectedOption={selectedOption}
     />
-    
-    {/* Show correct answer if student got it wrong */}
-    {correctIndex !== null && selectedOption !== correctIndex && (
+
+    {/* Show correct answer if student got it wrong and poll ended */}
+    {(timeLeft === 0 || correctIndex !== null) && correctIndex !== null && selectedOption !== correctIndex && (
       <div className="mt-4 text-center">
         <p className="text-slate-400">
           The correct answer was: 
